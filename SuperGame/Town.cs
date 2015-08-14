@@ -8,30 +8,15 @@ namespace SuperGame
 {
     public class Town
     {
-        private string _name;
-        private int _id;
-        private List<Shape> _objects;
+        public string Name { get; private set; }
+        public int Id { get; private set; }
+        public List<Shape> Objects { get; private set; }
 
         public Town(string name, int id, List<Shape> objects)
         {
-            _name = name;
-            _id = id;
-            _objects = objects;
-        }
-
-        public string Name
-        {
-            get { return _name; }
-        }
-
-        public int Id
-        {
-            get { return _id; }
-        }
-
-        public List<Shape> Objects
-        {
-            get { return _objects; }
+            Name = name;
+            Id = id;
+            Objects = objects;
         }
     }
 }

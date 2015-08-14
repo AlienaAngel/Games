@@ -117,7 +117,7 @@ namespace SuperGame
                 {
                     for (int j = 0; j < towns[i].Objects.Count; j++)
                     {
-                        towns[i].Objects[j].draw(g);
+                        towns[i].Objects[j].Draw(g);
                     }
                 }
             }
@@ -129,7 +129,7 @@ namespace SuperGame
             clr = Color.White;
             for (int i = 0; i < towns[currentTownId - 1].Objects.Count; i++) // !
             {
-                clr = towns[currentTownId - 1].Objects[i].checkHitCoords(e.Location);
+                clr = towns[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
                 if (clr != Color.White)
                 {
                     break;

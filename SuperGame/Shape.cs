@@ -9,8 +9,8 @@ namespace SuperGame
 {
     abstract public class Shape
     {
-        public abstract void draw(Graphics g);
-        public abstract Color checkHitCoords(Point point);
-
+        // В C# принято называть методы с большой буквы по style convention 
+        public abstract void Draw(Graphics g);
+        public abstract Color CheckHitCoords(Point point);
     }
 }

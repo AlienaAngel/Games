@@ -9,46 +9,26 @@ namespace SuperGame
 {
     public class Triangle : Shape
     {
-        private Point _pt1;
-        private Point _pt2;
-        private Point _pt3;
-        private Color _color;
+        public Point Pt1 { get; private set; }
+        public Point Pt2 { get; private set; }
+        public Point Pt3 { get; private set; }
+        public Color Color { get; private set; }
 
         public Triangle(Point pt1, Point pt2, Point pt3, Color color)
         {
-            _pt1 = pt1;
-            _pt2 = pt2;
-            _pt3 = pt3;
-            _color = color;
+            Pt1 = pt1;
+            Pt2 = pt2;
+            Pt3 = pt3;
+            Color = color;
         }
 
-        public Point Pt1
+        public override void Draw(Graphics g)
         {
-            get { return _pt1; }
+            SolidBrush brush = new SolidBrush(Color);
+            g.FillPolygon(brush, new Point[3] { Pt1, Pt2, Pt3 });
         }
 
-        public Point Pt2
-        {
-            get { return _pt2; }
-        }
-
-        public Point Pt3
-        {
-            get { return _pt3; }
-        }
-
-        public Color Color
-        {
-            get { return _color; }
-        }
-
-        public override void draw(Graphics g)
-        {
-            SolidBrush brush = new SolidBrush(_color);
-            g.FillPolygon(brush, new Point[3] { _pt1, _pt2, _pt3 });
-        }
-
-        public override Color checkHitCoords(Point point)
+        public override Color CheckHitCoords(Point point)
         {
             return Color.White;
         }

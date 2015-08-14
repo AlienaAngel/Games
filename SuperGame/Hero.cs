@@ -8,45 +8,19 @@ namespace SuperGame
 {
     public class Hero
     {
-        private int _health;
-        private int _mana;
-        private int _capacity;
-        private int _weight;
-        private int _money;
+        public int Health { get; private set; }
+        public int Mana { get; private set; }
+        public int Capacity { get; private set; }
+        public int Weight { get; private set; }
+        public int Money { get; private set; }
 
         public Hero()
         {
-            _health = 100;
-            _mana = 100;
-            _capacity = 20;
-            _money = 100;
-            _weight = 0;
+            Health = 100;
+            Mana = 100;
+            Capacity = 20;
+            Money = 100;
+            Weight = 0;
         }
-
-        public int Health
-        {
-            get { return _health; }
-        }
-
-        public int Mana
-        {
-            get { return _mana; }
-        }
-
-        public int Capacity
-        {
-            get { return _capacity; }
-        }
-
-        public int Weight
-        {
-            get { return _weight; }
-        }
-
-        public int Money
-        {
-            get { return _money; }
-        }
-
     }
 }
