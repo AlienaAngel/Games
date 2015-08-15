@@ -18,12 +18,18 @@ namespace SuperGame
         }
         public Hero hero = new Hero();
         public List<Town> towns = new List<Town>();
+        public List<Suburb> suburbs = new List<Suburb>();
         public int currentTownId = 1;
+        public enum LocationType {Town, Suburb};
+        LocationType currentLocation;
+
 
         private void newGame_btn_Click(object sender, EventArgs e)
         {
             createDrawInterface(hero);
             createTowns();
+            CreateSuburbs();
+            currentLocation = LocationType.Town;
             drawScene();
         }
 
@@ -102,39 +108,89 @@ namespace SuperGame
             obj.Add(new Rectangle(70, 25, 50, 60, Color.Red));
             obj.Add(new Rectangle(190, 48, 50, 60, Color.Green));
             obj.Add(new Triangle(new Point(80, 290), new Point(99, 120), new Point(200, 130), Color.Yellow));
-            Town town = new Town("Айвендейл", 1, obj);
+            obj.Add(new Rectangle(370, 55, 70, 37, Color.DarkOrange));
+            Town town = new Town("Айвендейл", 1, obj, Color.DodgerBlue);
             towns.Add(town);
 
+        }
+
+        public void CreateSuburbs()
+        {
+            List<Shape> obj = new List<Shape>();
+            obj.Add(new Rectangle(370, 55, 70, 37, Color.SandyBrown));
+            Suburb suburb = new Suburb(1, obj, Color.Lavender);
+            suburbs.Add(suburb);
         }
 
         
         public void drawScene()
         {
             Graphics g = gameField.CreateGraphics();
-            for (int i = 0; i < towns.Count; i++)
+            switch (currentLocation)
             {
-                if (currentTownId == towns[i].Id)
-                {
-                    for (int j = 0; j < towns[i].Objects.Count; j++)
+                case LocationType.Town:
                     {
-                        towns[i].Objects[j].Draw(g);
+                        g.Clear(towns[currentTownId - 1].GameFieldColor);
+                        for (int j = 0; j < towns[currentTownId - 1].Objects.Count; j++)
+                        {
+
+                            towns[currentTownId - 1].Objects[j].Draw(g);
+                        }
                     }
-                }
+                    break;
+                case LocationType.Suburb:
+                    {
+                        g.Clear(suburbs[currentTownId - 1].GameFieldColor);
+                        for (int j = 0; j < suburbs[currentTownId - 1].Objects.Count; j++)
+                        {
+
+                            suburbs[currentTownId - 1].Objects[j].Draw(g);
+                        }
+                    }
+                    break;
             }
+            
+                    
+              
+           
         }
 
         private void gameField_MouseClick(object sender, MouseEventArgs e)
         {
             Color clr = new Color();
             clr = Color.White;
-            for (int i = 0; i < towns[currentTownId - 1].Objects.Count; i++) // !
+            try
             {
-                clr = towns[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
-                if (clr != Color.White)
+                switch (currentLocation)
                 {
-                    break;
+                    case LocationType.Town:
+                        {
+                            for (int i = 0; i < towns[currentTownId - 1].Objects.Count; i++) // !
+                            {
+                                clr = towns[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
+                                if (clr != Color.White)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case LocationType.Suburb:
+                        {
+                            for (int i = 0; i < suburbs[currentTownId - 1].Objects.Count; i++) // !
+                            {
+                                clr = suburbs[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
+                                if (clr != Color.White)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        break;
                 }
             }
+            catch { Exception ex; }
+
             if (clr == Color.Red)
             {
                 MessageBox.Show("Красный");
@@ -144,6 +200,22 @@ namespace SuperGame
                 if (clr == Color.Green)
                 {
                     MessageBox.Show("Зеленый");
+                }
+                else
+                {
+                    if (clr == Color.DarkOrange)
+                    {
+                        currentLocation = LocationType.Suburb;
+                        drawScene();
+                    }
+                    else
+                    {
+                        if (clr == Color.SandyBrown)
+                        {
+                            currentLocation = LocationType.Town;
+                            drawScene();
+                        }
+                    }
                 }
 
             }

@@ -11,6 +11,7 @@ namespace SuperGame
     public class Rectangle : Shape
     {
         // X, Y - у тебя же для этого есть Point, не так ли ?)
+        //нафига вводить сюда лишний Point? я не вижу особого смысла. Вполне можно и поотдельности
         public int X { get; private set; }
         public int Y { get; private set; }
         public int Width { get; private set; }
@@ -34,7 +35,7 @@ namespace SuperGame
 
         public override Color CheckHitCoords(Point point)
         {
-            if (point.X >= X && point.Y >= X)
+            if (point.X >= X && point.Y >= Y)
             {
                 if (point.X <= X + Width && point.Y <= Y + Height)
                     return Color;
