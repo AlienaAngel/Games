@@ -16,6 +16,7 @@ namespace SuperGame
         {
             InitializeComponent();
         }
+
         public Hero hero = new Hero();
         public List<Town> towns = new List<Town>();
         public List<Suburb> suburbs = new List<Suburb>();
@@ -191,38 +192,33 @@ namespace SuperGame
             }
             catch { Exception ex; }
 
-            if (clr == Color.Yellow) {
-              MessageBox.Show("Желтый");
+            // Лучше писать так, да, так каждое условеи будет проверяться всегда, но зато 
+            // это легко читается, чем трехкратно вложенные if
+            
+            if (clr == Color.Yellow) 
+            {
+                MessageBox.Show("Желтый");
             }
-
             if (clr == Color.Red)
             {
                 MessageBox.Show("Красный");
             }
-            else
+            
+            if (clr == Color.Green)
             {
-                if (clr == Color.Green)
-                {
-                    MessageBox.Show("Зеленый");
-                }
-                else
-                {
-                    if (clr == Color.DarkOrange)
-                    {
-                        currentLocation = LocationType.Suburb;
-                        drawScene();
-                    }
-                    else
-                    {
-                        if (clr == Color.SandyBrown)
-                        {
-                            currentLocation = LocationType.Town;
-                            drawScene();
-                        }
-                    }
-                }
-
+                MessageBox.Show("Зеленый");
             }
+            if (clr == Color.DarkOrange)
+            {
+                currentLocation = LocationType.Suburb;
+                drawScene();
+            }
+            if (clr == Color.SandyBrown)
+            {
+                currentLocation = LocationType.Town;
+                drawScene();
+            }
+             
         }
 
     }
