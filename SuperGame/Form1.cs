@@ -191,6 +191,10 @@ namespace SuperGame
             }
             catch { Exception ex; }
 
+            if (clr == Color.Yellow) {
+              MessageBox.Show("Желтый");
+            }
+
             if (clr == Color.Red)
             {
                 MessageBox.Show("Красный");
