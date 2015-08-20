@@ -17,20 +17,14 @@ namespace SuperGame
             InitializeComponent();
         }
 
-        public Hero hero = new Hero();
-        public List<Town> towns = new List<Town>();
-        public List<Suburb> suburbs = new List<Suburb>();
-        public int currentTownId = 1;
-        public enum LocationType {Town, Suburb};
-        LocationType currentLocation;
-
+				GameContext gameContext;
 
         private void newGame_btn_Click(object sender, EventArgs e)
         {
+						List<ILocation> locations = CreateTowns();
+						Hero hero = new Hero();
+						gameContext = new GameContext(locations, hero);
             createDrawInterface(hero);
-            createTowns();
-            CreateSuburbs();
-            currentLocation = LocationType.Town;
             drawScene();
         }
 
@@ -104,10 +98,10 @@ namespace SuperGame
         }
 
 				
-
-        public void createTowns()
+        public List<ILocation> CreateTowns()
         {
-					  
+						List<ILocation> locations = new List<ILocation>();
+
 						Tax tax = new Tax("Налоговая", new Triangle(new Point(80, 290), new Point(99, 120), new Point(200, 130), Color.Yellow), new Owner("Имя Фамилия 1"));
 						Home home1 = new Home("Дом 1", new Rectangle(70, 25, 50, 60, Color.Red), new Owner("Имя Фамилия 2"));
 						Home home2 = new Home("Дом 2", new Rectangle(190, 48, 50, 60, Color.Green), new Owner("Имя Фамилия 3"));
@@ -121,72 +115,47 @@ namespace SuperGame
 						home3.enter += change_location;
 
 
-						/*
+						List<IBuilding> bS = new List<IBuilding>();
+						Home home = new Home("Дом", new Rectangle(370, 55, 70, 37, Color.SandyBrown), new Owner("None"));
+						bS.Add(home);
+						home.enter += change_location;
+						Suburb suburb = new Suburb(1, bS, Color.Lavender);
+						
+						Town town = new Town("Айвендейл", 1, b, Color.DodgerBlue, suburb);
+						
+						locations.Add(town);
 
-							
-							 */
-
-						Town town = new Town("Айвендейл", 1, b, Color.DodgerBlue);
-						towns.Add(town);
+						return locations;	
 				}
 
 				void tax_enter(IBuilding owner) {
 					MessageBox.Show(owner.Name);
 				}
 
-			// TODO пока костыль, чтобы сохранить былую функциональность
-				bool flag = true;
 				void change_location(IBuilding owner) {
-
-					if (flag) {
-						currentLocation = LocationType.Suburb;
-						drawScene();
-						
-					} else {
-						currentLocation = LocationType.Town;
-						drawScene();
-					}
-					flag = !flag;
+					gameContext.IsInSuburb=!gameContext.IsInSuburb;
+					drawScene();
 				}
-
-
-        public void CreateSuburbs()
-        {
-            List<Shape> obj = new List<Shape>();
-            obj.Add(new Rectangle(370, 55, 70, 37, Color.SandyBrown));
-            Suburb suburb = new Suburb(1, obj, Color.Lavender);
-            suburbs.Add(suburb);
-        }
 
 	      public void drawScene()
         {
             Graphics g = gameField.CreateGraphics();
-            switch (currentLocation)
-            {
-                case LocationType.Town:
-                    
-                      g.Clear(towns[currentTownId - 1].GameFieldColor);
-											foreach(IBuilding building in towns[currentTownId - 1].Buildings) {
-												building.Draw(g);
-											}
-
-                    break;
-                case LocationType.Suburb:
-                    
-                        g.Clear(suburbs[currentTownId - 1].GameFieldColor);
-                        for (int j = 0; j < suburbs[currentTownId - 1].Objects.Count; j++)
-                        {
-
-                            suburbs[currentTownId - 1].Objects[j].Draw(g);
-                        }
-                    
-                    break;
-            }
+						ILocation loc = gameContext.ActiveLocation;
+						if (gameContext.IsInSuburb) {
+							g.Clear(loc.GameFieldColor);
+							loc.Suburb.Buildings.ForEach(x => x.Draw(g));
+						} else {
+							g.Clear(loc.Suburb.GameFieldColor);
+							loc.Buildings.ForEach(x => x.Draw(g));
+						}
         }
 
         private void gameField_MouseClick(object sender, MouseEventArgs e)
         {
-					towns[currentTownId - 1].Buildings.ForEach(x => x.Click(e.Location));
+					gameContext
+						.ActiveLocation
+						.Buildings
+						.ForEach(x => x.Click(e.Location));
         }
 
     }

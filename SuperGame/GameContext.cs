@@ -8,7 +8,17 @@ namespace SuperGame
 {
 	public class GameContext 
 	{
-		public List<IBuilding> Buildings { get; set; }
-		
+		public List<ILocation> Locations { get; set; }
+		public ILocation ActiveLocation { get; set; }
+		public bool IsInSuburb { get; set; }
+		public Hero Hero { get; set; }
+
+		public GameContext(List<ILocation> locations, Hero hero) {
+			Locations = locations;
+			ActiveLocation = Locations[0];
+			IsInSuburb = false;
+			Hero = hero;
+		}
+
 	}
 }
