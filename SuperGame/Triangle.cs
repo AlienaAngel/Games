@@ -22,7 +22,7 @@ namespace SuperGame
             Color = color;
         }
 
-        public override void Draw(Graphics g)
+        public void Draw(Graphics g)
         {
             SolidBrush brush = new SolidBrush(Color);
             g.FillPolygon(brush, new Point[3] { Pt1, Pt2, Pt3 });
@@ -36,7 +36,7 @@ namespace SuperGame
             return Math.Abs( m[0,0]*m[1,1] - m[0,1]*m[1,0] ) / 2f;
         }
 
-        public override Color CheckHitCoords(Point point)
+        public Color CheckHitCoords(Point point)
         {
             
             double s = GetSquare(Pt1, Pt2, Pt3);

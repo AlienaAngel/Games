@@ -104,16 +104,20 @@ namespace SuperGame
         }
 
         public void createTowns()
-        { 
-            List<Shape> obj = new List<Shape>();
-            obj.Add(new Rectangle(70, 25, 50, 60, Color.Red));
-            obj.Add(new Rectangle(190, 48, 50, 60, Color.Green));
-            obj.Add(new Triangle(new Point(80, 290), new Point(99, 120), new Point(200, 130), Color.Yellow));
-            obj.Add(new Rectangle(370, 55, 70, 37, Color.DarkOrange));
-            Town town = new Town("Айвендейл", 1, obj, Color.DodgerBlue);
+        {
+
+						Tax tax = new Tax("Налоговая", new Triangle(new Point(80, 290), new Point(99, 120), new Point(200, 130), Color.Yellow), new Owner("Имя Фамилия 1"));
+						Home home1 = new Home("Дом 1", new Rectangle(70, 25, 50, 60, Color.Red), new Owner("Имя Фамилия 2"));
+						Home home2 = new Home("Дом 2", new Rectangle(190, 48, 50, 60, Color.Green), new Owner("Имя Фамилия 3"));
+						Home home3 = new Home("Дом 3", new Rectangle(370, 55, 70, 37, Color.DarkOrange), new Owner("Имя Фамилия 4"));
+
+						List<IBuilding> b = new List<IBuilding> { tax, home1, home2, home3 };
+						
+						Town town = new Town("Айвендейл", 1, b, Color.DodgerBlue);
             towns.Add(town);
 
-        }
+
+				}
 
         public void CreateSuburbs()
         {
@@ -123,31 +127,56 @@ namespace SuperGame
             suburbs.Add(suburb);
         }
 
-        
+			/*
+				public void drawScene() {
+					Graphics g = gameField.CreateGraphics();
+					switch (currentLocation) {
+						case LocationType.Town: {
+								g.Clear(towns[currentTownId - 1].GameFieldColor);
+							foreach(IBuilding building: 
+
+									towns[currentTownId - 1].Objects[j].Draw(g);
+								}
+							}
+							break;
+						case LocationType.Suburb: {
+								g.Clear(suburbs[currentTownId - 1].GameFieldColor);
+								for (int j = 0; j < suburbs[currentTownId - 1].Objects.Count; j++) {
+
+									suburbs[currentTownId - 1].Objects[j].Draw(g);
+								}
+							}
+							break;
+					}
+
+
+
+
+				}  */
+
+
         public void drawScene()
         {
             Graphics g = gameField.CreateGraphics();
             switch (currentLocation)
             {
                 case LocationType.Town:
-                    {
-                        g.Clear(towns[currentTownId - 1].GameFieldColor);
-                        for (int j = 0; j < towns[currentTownId - 1].Objects.Count; j++)
-                        {
+                    
+                      g.Clear(towns[currentTownId - 1].GameFieldColor);
+											foreach(IBuilding building in towns[currentTownId - 1].Buildings) {
+												building.Draw(g);
+											}
 
-                            towns[currentTownId - 1].Objects[j].Draw(g);
-                        }
-                    }
                     break;
                 case LocationType.Suburb:
-                    {
+                    
                         g.Clear(suburbs[currentTownId - 1].GameFieldColor);
                         for (int j = 0; j < suburbs[currentTownId - 1].Objects.Count; j++)
                         {
 
                             suburbs[currentTownId - 1].Objects[j].Draw(g);
                         }
-                    }
+                    
                     break;
             }
             
@@ -165,16 +194,14 @@ namespace SuperGame
                 switch (currentLocation)
                 {
                     case LocationType.Town:
-                        {
-                            for (int i = 0; i < towns[currentTownId - 1].Objects.Count; i++) // !
-                            {
-                                clr = towns[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
-                                if (clr != Color.White)
-                                {
-                                    break;
-                                }
-                            }
-                        }
+
+											foreach (IBuilding building in towns[currentTownId - 1].Buildings) {
+												clr = building.Click(e.Location);
+												if (clr != Color.White) {
+													break;
+												}
+											}                          
+                        
                         break;
                     case LocationType.Suburb:
                         {

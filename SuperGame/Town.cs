@@ -11,14 +11,14 @@ namespace SuperGame
     {
         public string Name { get; private set; }
         public int Id { get; private set; }
-        public List<Shape> Objects { get; private set; }
+				public List<IBuilding> Buildings { get; private set; }
         public Color GameFieldColor { get; private set; }
 
-        public Town(string name, int id, List<Shape> objects, Color gameFieldColor)
+				public Town(string name, int id, List<IBuilding> buildings, Color gameFieldColor)
         {
             Name = name;
             Id = id;
-            Objects = objects;
+						Buildings = buildings;
             GameFieldColor = gameFieldColor;
         }
     }

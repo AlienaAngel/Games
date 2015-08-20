@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameContext.cs" />
+    <Compile Include="Home.cs" />
+    <Compile Include="IBuilding.cs" />
+    <Compile Include="Owner.cs" />
+    <Compile Include="Tax.cs" />
+    <Compile Include="_Building.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

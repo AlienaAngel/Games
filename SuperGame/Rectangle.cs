@@ -27,13 +27,13 @@ namespace SuperGame
             Color = color;
         }
 
-        public override void Draw(Graphics g)
+        public void Draw(Graphics g)
         { 
             SolidBrush brush= new SolidBrush(Color);
             g.FillRectangle(brush, X, Y, Width, Height);
         }
 
-        public override Color CheckHitCoords(Point point)
+        public Color CheckHitCoords(Point point)
         {
             if (point.X >= X && point.Y >= Y)
             {
