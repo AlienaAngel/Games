@@ -10,6 +10,6 @@ namespace SuperGame
     public interface Shape
     {
         void Draw(Graphics g);
-        Color CheckHitCoords(Point point);
+        bool CheckHitCoords(Point point);
     }
 }

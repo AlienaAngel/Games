@@ -36,7 +36,7 @@ namespace SuperGame
             return Math.Abs( m[0,0]*m[1,1] - m[0,1]*m[1,0] ) / 2f;
         }
 
-        public Color CheckHitCoords(Point point)
+        public bool CheckHitCoords(Point point)
         {
             
             double s = GetSquare(Pt1, Pt2, Pt3);
@@ -47,7 +47,7 @@ namespace SuperGame
             double eps = 0.01;
             double diff = s - (s1 + s2 + s3);
 
-            return   (Math.Abs(diff) < eps)?Color:Color.White;
+            return   (Math.Abs(diff) < eps);
         }
     }
 }

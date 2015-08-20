@@ -34,8 +34,14 @@ namespace SuperGame {
 			throw new NotImplementedException();
 		}
 
-		public System.Drawing.Color Click(System.Drawing.Point p) {
-			return Shape.CheckHitCoords(p);
+		public void Click(System.Drawing.Point p) {
+			if (Shape.CheckHitCoords(p)) {
+				if (enter != null)
+					enter(this);
+			}
 		}
+
+
+		public event BuildClickHandler enter;
 	}
 }

@@ -20,7 +20,7 @@ namespace SuperGame
     }
 
     public void Enter() {
-      throw new NotImplementedException();
+			
     }
 
     public void Exit() {
@@ -35,10 +35,15 @@ namespace SuperGame
 			Shape.Draw(g);
 		}
 
-
-
-		public System.Drawing.Color Click(System.Drawing.Point p) {
-			return Shape.CheckHitCoords(p);
+		
+		public void Click(System.Drawing.Point p) {
+				if( Shape.CheckHitCoords(p) ) {
+					if (enter != null)
+						enter(this);
+				}
 		}
+
+
+		public event BuildClickHandler enter;
 	}
 }

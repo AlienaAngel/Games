@@ -103,21 +103,52 @@ namespace SuperGame
             MessageBox.Show("Здесь замешаны делегаты");
         }
 
+				
+
         public void createTowns()
         {
-
+					  
 						Tax tax = new Tax("Налоговая", new Triangle(new Point(80, 290), new Point(99, 120), new Point(200, 130), Color.Yellow), new Owner("Имя Фамилия 1"));
 						Home home1 = new Home("Дом 1", new Rectangle(70, 25, 50, 60, Color.Red), new Owner("Имя Фамилия 2"));
 						Home home2 = new Home("Дом 2", new Rectangle(190, 48, 50, 60, Color.Green), new Owner("Имя Фамилия 3"));
 						Home home3 = new Home("Дом 3", new Rectangle(370, 55, 70, 37, Color.DarkOrange), new Owner("Имя Фамилия 4"));
 
 						List<IBuilding> b = new List<IBuilding> { tax, home1, home2, home3 };
-						
+
+						tax.enter += tax_enter;
+						home1.enter += tax_enter;
+						home2.enter += tax_enter;
+						home3.enter += change_location;
+
+
+						/*
+
+							
+							 */
+
 						Town town = new Town("Айвендейл", 1, b, Color.DodgerBlue);
-            towns.Add(town);
-
-
+						towns.Add(town);
 				}
+
+				void tax_enter(IBuilding owner) {
+					MessageBox.Show(owner.Name);
+				}
+
+			// TODO пока костыль, чтобы сохранить былую функциональность
+				bool flag = true;
+				void change_location(IBuilding owner) {
+
+					if (flag) {
+						currentLocation = LocationType.Suburb;
+						drawScene();
+						
+					} else {
+						currentLocation = LocationType.Town;
+						drawScene();
+					}
+					flag = !flag;
+				}
+
 
         public void CreateSuburbs()
         {
@@ -127,35 +158,7 @@ namespace SuperGame
             suburbs.Add(suburb);
         }
 
-			/*
-				public void drawScene() {
-					Graphics g = gameField.CreateGraphics();
-					switch (currentLocation) {
-						case LocationType.Town: {
-								g.Clear(towns[currentTownId - 1].GameFieldColor);
-							foreach(IBuilding building: 
-
-									towns[currentTownId - 1].Objects[j].Draw(g);
-								}
-							}
-							break;
-						case LocationType.Suburb: {
-								g.Clear(suburbs[currentTownId - 1].GameFieldColor);
-								for (int j = 0; j < suburbs[currentTownId - 1].Objects.Count; j++) {
-
-									suburbs[currentTownId - 1].Objects[j].Draw(g);
-								}
-							}
-							break;
-					}
-
-
-
-
-				}  */
-
-
-        public void drawScene()
+	      public void drawScene()
         {
             Graphics g = gameField.CreateGraphics();
             switch (currentLocation)
@@ -179,73 +182,11 @@ namespace SuperGame
                     
                     break;
             }
-            
-                    
-              
-           
         }
 
         private void gameField_MouseClick(object sender, MouseEventArgs e)
         {
-            Color clr = new Color();
-            clr = Color.White;
-            try
-            {
-                switch (currentLocation)
-                {
-                    case LocationType.Town:
-
-											foreach (IBuilding building in towns[currentTownId - 1].Buildings) {
-												clr = building.Click(e.Location);
-												if (clr != Color.White) {
-													break;
-												}
-											}                          
-                        
-                        break;
-                    case LocationType.Suburb:
-                        {
-                            for (int i = 0; i < suburbs[currentTownId - 1].Objects.Count; i++) // !
-                            {
-                                clr = suburbs[currentTownId - 1].Objects[i].CheckHitCoords(e.Location);
-                                if (clr != Color.White)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-            catch { Exception ex; }
-
-            // Лучше писать так, да, так каждое условеи будет проверяться всегда, но зато 
-            // это легко читается, чем трехкратно вложенные if
-            
-            if (clr == Color.Yellow) 
-            {
-                MessageBox.Show("Желтый");
-            }
-            if (clr == Color.Red)
-            {
-                MessageBox.Show("Красный");
-            }
-            
-            if (clr == Color.Green)
-            {
-                MessageBox.Show("Зеленый");
-            }
-            if (clr == Color.DarkOrange)
-            {
-                currentLocation = LocationType.Suburb;
-                drawScene();
-            }
-            if (clr == Color.SandyBrown)
-            {
-                currentLocation = LocationType.Town;
-                drawScene();
-            }
-             
+					towns[currentTownId - 1].Buildings.ForEach(x => x.Click(e.Location));
         }
 
     }

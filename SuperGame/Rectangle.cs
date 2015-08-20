@@ -33,14 +33,14 @@ namespace SuperGame
             g.FillRectangle(brush, X, Y, Width, Height);
         }
 
-        public Color CheckHitCoords(Point point)
+        public bool CheckHitCoords(Point point)
         {
             if (point.X >= X && point.Y >= Y)
             {
-                if (point.X <= X + Width && point.Y <= Y + Height)
-                    return Color;
+							if (point.X <= X + Width && point.Y <= Y + Height)
+								return true;
             }
-            return Color.White;
+						return false;
         }
 
     }

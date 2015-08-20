@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 
 namespace SuperGame 
 {
+	public delegate void BuildClickHandler(IBuilding owner);
+
   public interface IBuilding 
   {
 		void Draw(Graphics g);
 		Owner Owner { get; }
-		Color Click(Point p);
+		String Name { get; }
+		void Click(Point p);
+
+		event BuildClickHandler enter;
+
+
+
+
     void Enter();
     void Exit();
     void Speak();
