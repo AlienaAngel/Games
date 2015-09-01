@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\AbstractBuilding.cs" />
     <Compile Include="GameContext.cs" />
     <Compile Include="Buildings\Home.cs" />
     <Compile Include="Buildings\IBuilding.cs" />

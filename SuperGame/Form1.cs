@@ -129,6 +129,7 @@ namespace SuperGame
 				}
 
 				void tax_enter(IBuilding owner) {
+					
 					MessageBox.Show(owner.Name);
 				}
 
@@ -141,6 +142,7 @@ namespace SuperGame
         {
             Graphics g = gameField.CreateGraphics();
 						ILocation loc = gameContext.ActiveLocation;
+						
 						if (gameContext.IsInSuburb) {
 							g.Clear(loc.GameFieldColor);
 							loc.Suburb.Buildings.ForEach(x => x.Draw(g));
